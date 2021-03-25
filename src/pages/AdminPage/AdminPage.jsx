@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { userService } from '@/_services';
+import { userService } from '@/services';
 
 class AdminPage extends React.Component {
     constructor(props) {

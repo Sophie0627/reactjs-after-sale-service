@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { userService, authenticationService } from '@/_services';
+import { userService, authenticationService } from '@/services';
 
 class HomePage extends React.Component {
     constructor(props) {
