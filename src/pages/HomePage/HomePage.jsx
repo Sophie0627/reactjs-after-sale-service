@@ -1,6 +1,15 @@
-import React from 'react';
+import * as React from 'react';
+import { serviceService, authenticationService } from '@/services';
+import { DataGrid } from '@material-ui/data-grid';
 
-import { userService, authenticationService } from '@/services';
+const columns = [
+  { field: 'id', headerName: 'ID', width: 70 },
+  { field: 'title', headerName: 'Title', width: 130 },
+  { field: 'client', headerName: 'Client name', width: 130 },
+  { field: 'status', headerName: 'Status', width: 130 },
+  { field: 'createdAt', headerName: 'Created Date', width: 150 },
+  
+];
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -8,30 +17,41 @@ class HomePage extends React.Component {
 
         this.state = {
             currentUser: authenticationService.currentUserValue,
-            userFromApi: null
+            serviceFromApi: null,
+            isLoading: true,
         };
     }
 
     componentDidMount() {
         const { currentUser } = this.state;
-        userService.getById(currentUser.id).then(userFromApi => this.setState({ userFromApi }));
+        console.log(currentUser);
+        serviceService.getAllServices(currentUser.accessToken).then(serviceFromApi => {
+            this.setState({
+                serviceFromApi: serviceFromApi,
+                isLoading: false,
+            });
+        });
     }
 
     render() {
-        const { currentUser, userFromApi } = this.state;
+        const { currentUser, serviceFromApi } = this.state;
+        console.log(serviceFromApi)
         return (
             <div>
-                <h1>Home</h1>
+                <h1>Service List</h1>
                 <p>You're logged in with React & JWT!!</p>
                 <p>Your role is: <strong>{currentUser.roles[0]}</strong>.</p>
                 <p>This page can be accessed by all authenticated users.</p>
                 <div>
                     Current user from secure api end point:
-                    {userFromApi &&
+                    {/* {userFromApi &&
                         <ul>
                             <li>{userFromApi.firstName} {userFromApi.lastName}</li>
                         </ul>
-                    }
+                    } */}
+                </div>
+                <div style={{ height: 400, width: '100%' }}>
+                    <DataGrid rows={this.state.isLoading ? [] : serviceFromApi} columns={columns} pageSize={5} checkboxSelection />
                 </div>
             </div>
         );

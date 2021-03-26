@@ -7,6 +7,48 @@ import { PrivateRoute } from '@/components';
 import { HomePage } from '@/pages/HomePage';
 import { AdminPage } from '@/pages/AdminPage';
 import { LoginPage } from '@/pages/LoginPage';
+import { RegisterPage } from '@/pages/RegisterPage';
+
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
+
+export default function AuthAppBar() {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+            <Typography variant="h6" className={classes.title}>
+                After Sale Service
+            </Typography>
+            {/* <Button color="inherit"> */}
+                <Link to="/login" className="nav-item nav-link" color="inherit">Login</Link>
+                <Link to="/signup" className="nav-item nav-link" color="inherit">Register</Link>
+                {/* </Button> */}
+            {/* <Button color="inherit">Register</Button> */}
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
+}
 
 class App extends React.Component {
     constructor(props) {
@@ -44,13 +86,23 @@ class App extends React.Component {
                             </div>
                         </nav>
                     }
+                    {!currentUser &&
+                        <AuthAppBar />
+                        // <nav className="navbar navbar-expand navbar-dark bg-dark">
+                        //     <div className="navbar-nav">
+                        //         <Link to="/login" className="nav-item nav-link">Login</Link>
+                        //         <Link to="/signup" className="nav-item nav-link">Register</Link>
+                        //     </div>
+                        // </nav>
+                    }
                     <div className="jumbotron">
                         <div className="container">
                             <div className="row">
-                                <div className="col-md-6 offset-md-3">
+                                <div className="col-md-12">
                                     <PrivateRoute exact path="/" component={HomePage} />
                                     <PrivateRoute path="/admin" roles={[Role.Admin]} component={AdminPage} />
                                     <Route path="/login" component={LoginPage} />
+                                    <Route path="/signup" component={RegisterPage} />
                                 </div>
                             </div>
                         </div>
