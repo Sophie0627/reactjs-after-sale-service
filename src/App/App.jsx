@@ -88,12 +88,6 @@ class App extends React.Component {
                     }
                     {!currentUser &&
                         <AuthAppBar />
-                        // <nav className="navbar navbar-expand navbar-dark bg-dark">
-                        //     <div className="navbar-nav">
-                        //         <Link to="/login" className="nav-item nav-link">Login</Link>
-                        //         <Link to="/signup" className="nav-item nav-link">Register</Link>
-                        //     </div>
-                        // </nav>
                     }
                     <div className="jumbotron">
                         <div className="container">

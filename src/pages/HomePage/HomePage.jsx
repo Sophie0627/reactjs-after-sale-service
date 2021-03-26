@@ -53,7 +53,7 @@ export default function StickyHeadTable() {
 
   React.useEffect(() => {
     serviceService.getAllServices(authenticationService.currentUserValue.accessToken).then(serviceFromApi => {
-        var arr = []
+        var arr = [];
         serviceFromApi.forEach(service => {
             arr.push(createData(service.title, service.client, service.technicien, service.status, service.createdAt, service.serviceId));
         });
@@ -70,8 +70,6 @@ export default function StickyHeadTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
-  console.log(rows);
 
   return (
     loading
