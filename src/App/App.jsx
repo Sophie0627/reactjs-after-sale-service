@@ -4,7 +4,7 @@ import { Router, Route, Link } from 'react-router-dom';
 import { history, Role } from '@/_helpers';
 import { authenticationService } from '@/services';
 import { PrivateRoute } from '@/components';
-import { HomePage } from '@/pages/HomePage';
+import { HomePage, ServiceDetailPage } from '@/pages/HomePage';
 import { AdminPage } from '@/pages/AdminPage';
 import { LoginPage } from '@/pages/LoginPage';
 import { RegisterPage } from '@/pages/RegisterPage';
@@ -40,8 +40,8 @@ export default function AuthAppBar() {
                 After Sale Service
             </Typography>
             {/* <Button color="inherit"> */}
-                <Link to="/login" className="nav-item nav-link" color="inherit">Login</Link>
-                <Link to="/signup" className="nav-item nav-link" color="inherit">Register</Link>
+                <Link to="/login" className="btn btn-primary" color="inherit">Login</Link>
+                <Link to="/signup" className="btn btn-primary" color="inherit">Register</Link>
                 {/* </Button> */}
             {/* <Button color="inherit">Register</Button> */}
         </Toolbar>
@@ -103,6 +103,7 @@ class App extends React.Component {
                                     <PrivateRoute path="/admin" roles={[Role.Admin]} component={AdminPage} />
                                     <Route path="/login" component={LoginPage} />
                                     <Route path="/signup" component={RegisterPage} />
+                                    <Route path="/service/:id" render={(props) => <ServiceDetailPage {...props} />} />
                                 </div>
                             </div>
                         </div>
