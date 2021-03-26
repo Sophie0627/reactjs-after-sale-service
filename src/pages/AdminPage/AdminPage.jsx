@@ -1,6 +1,21 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-import { userService } from '@/services';
+import { userService, authenticationService } from '@/services';
+
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
+
+const columns = [
+    
+];
 
 class AdminPage extends React.Component {
     constructor(props) {
@@ -19,7 +34,7 @@ class AdminPage extends React.Component {
         const { users } = this.state;
         return (
             <div>
-                <h1>Admin</h1>
+                <h1>User management</h1>
                 <p>This page can only be accessed by administrators.</p>
                 <div>
                     All users from secure (admin only) api end point:

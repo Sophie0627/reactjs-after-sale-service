@@ -80,8 +80,8 @@ class App extends React.Component {
                     {currentUser &&
                         <nav className="navbar navbar-expand navbar-dark bg-dark">
                             <div className="navbar-nav">
-                                <Link to="/" className="nav-item nav-link">Home</Link>
-                                {isAdmin && <Link to="/admin" className="nav-item nav-link">Admin</Link>}
+                                <Link to="/" className="nav-item nav-link">Services</Link>
+                                {isAdmin && <Link to="/admin" className="nav-item nav-link">User Management</Link>}
                                 <a onClick={this.logout} className="nav-item nav-link">Logout</a>
                             </div>
                         </nav>

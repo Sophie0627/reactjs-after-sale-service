@@ -3,6 +3,7 @@ import { authHeader, handleResponse } from '@/_helpers';
 
 export const serviceService = {
     getAllServices,
+    getOneService
 };
 
 function getAllServices(token) {
@@ -11,7 +12,7 @@ function getAllServices(token) {
     return fetch(`${config.apiUrl}/api/services`, requestOptions).then(handleResponse);
 }
 
-function getById(id) {
-    const requestOptions = { method: 'GET', headers: authHeader() };
-    return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
+function getOneService(id, token) {
+    const requestOptions = { method: 'GET', headers: { 'x-access-token' : token } };
+    return fetch(`${config.apiUrl}/api/service/${id}`, requestOptions).then(handleResponse);
 }

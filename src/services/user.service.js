@@ -2,13 +2,13 @@ import config from 'config';
 import { authHeader, handleResponse } from '@/_helpers';
 
 export const userService = {
-    getAll,
+    getAllUser,
     getById
 };
 
-function getAll() {
-    const requestOptions = { method: 'GET', headers: authHeader() };
-    return fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
+function getAllUser(token) {
+    const requestOptions = { method: 'GET', headers: { 'x-access-token' : token } };
+    return fetch(`${config.apiUrl}/api/users`, requestOptions).then(handleResponse);
 }
 
 function getById(id) {

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { serviceService, authenticationService } from '@/services';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -14,11 +15,11 @@ import TableRow from '@material-ui/core/TableRow';
 const columns = [
   { id: 'title', label: 'Title', minWidth: 270 },
   { id: 'client', label: 'Client Name', minWidth: 100 },
+  { id: 'technicien', label: 'Technicien Name', minWidth: 100 },
   {
     id: 'status',
     label: 'Status',
     minWidth: 170,
-    align: 'right',
     format: (value) => value.toLocaleString('en-US'),
   },
   {
@@ -30,8 +31,8 @@ const columns = [
   },
 ];
 
-function createData(title, client, status, createdAt, id ) {
-  return { title, client, status, createdAt, id };
+function createData(title, client, technicien, status, createdAt, id ) {
+  return { title, client, status, technicien, createdAt, id };
 }
 
 const useStyles = makeStyles({
@@ -54,7 +55,7 @@ export default function StickyHeadTable() {
     serviceService.getAllServices(authenticationService.currentUserValue.accessToken).then(serviceFromApi => {
         var arr = []
         serviceFromApi.forEach(service => {
-            arr.push(createData(service.title, service.client, service.status, service.createdAt, service.serviceId));
+            arr.push(createData(service.title, service.client, service.technicien, service.status, service.createdAt, service.serviceId));
         });
         setRows(arr);
         setLoading(false);
