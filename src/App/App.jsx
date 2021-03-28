@@ -5,7 +5,7 @@ import { history, Role } from '@/_helpers';
 import { authenticationService } from '@/services';
 import { PrivateRoute } from '@/components';
 import { HomePage, ServiceDetailPage } from '@/pages/HomePage';
-import { AdminPage } from '@/pages/AdminPage';
+import { AdminPage, CreateTechnicienPage } from '@/pages/AdminPage';
 import { LoginPage } from '@/pages/LoginPage';
 import { RegisterPage } from '@/pages/RegisterPage';
 
@@ -13,9 +13,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+// import Button from '@material-ui/core/Button';
+// import IconButton from '@material-ui/core/IconButton';
+// import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -94,10 +94,11 @@ class App extends React.Component {
                             <div className="row">
                                 <div className="col-md-12">
                                     <PrivateRoute exact path="/" component={HomePage} />
-                                    <PrivateRoute path="/admin" roles={[Role.Admin]} component={AdminPage} />
+                                    <PrivateRoute exact path="/admin" roles={[Role.Admin]} component={AdminPage} />
                                     <Route path="/login" component={LoginPage} />
                                     <Route path="/signup" component={RegisterPage} />
                                     <Route path="/service/:id" render={(props) => <ServiceDetailPage {...props} />} />
+                                    <Route exact path="/admin/create/technicien" render={(props) => <CreateTechnicienPage {... props} />} />
                                 </div>
                             </div>
                         </div>

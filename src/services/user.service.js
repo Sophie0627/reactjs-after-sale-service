@@ -3,7 +3,8 @@ import { authHeader, handleResponse } from '@/_helpers';
 
 export const userService = {
     getAllUsers,
-    getById
+    getById,
+    createTechnicien
 };
 
 function getAllUsers(token) {
@@ -13,5 +14,17 @@ function getAllUsers(token) {
 
 function getById(id) {
     const requestOptions = { method: 'GET', headers: authHeader() };
-    return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/api/users/${id}`, requestOptions).then(handleResponse);
+}
+
+function createTechnicien(username, email, password, token) {
+    const requestOptions = { 
+        method: 'POST', 
+        headers: {
+            'x-access-token': token,
+            'Content-Type': 'application/json'
+        }, 
+        body: JSON.stringify({ username, email, password })
+    };
+    return fetch(`${config.apiUrl}/api/user/technicien`, requestOptions).then(handleResponse);
 }

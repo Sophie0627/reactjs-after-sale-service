@@ -132,6 +132,7 @@ class AdminPage extends React.Component {
             <div>
                 <h1>User management</h1>
                 <p>This page can only be accessed by administrators.</p>
+                <Link to="/admin/create/technicien" className="btn btn-primary" color="inherit">Create a Technicien</Link>
                 <div>
                     All users from secure (admin only) api end point:
                     {users &&
