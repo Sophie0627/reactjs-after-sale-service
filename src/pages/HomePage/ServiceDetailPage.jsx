@@ -26,7 +26,14 @@ function acceptService(serviceId, props) {
     serviceService.updateService(serviceId, authenticationService.currentUserValue.id, authenticationService.currentUserValue.accessToken)
     .then(service => {
         props.history.push("/");
-    })
+    });
+}
+
+function completeService(serviceId, props) {
+    serviceService.completeService(serviceId, authenticationService.currentUserValue.accessToken)
+    .then(service => {
+        props.history.push("/");
+    });
 }
 
 function ServiceDetailPage(props) {
@@ -39,12 +46,16 @@ function ServiceDetailPage(props) {
     const [isClient, setClient] = React.useState(false);
     const [isTech, setTech] = React.useState(false);
     const [isAccepted, setAccept] = React.useState(false);
+    const [isPending, setPending] = React.useState(false);
+    const [isOwner, setOwner] = React.useState(false);
     
     React.useEffect(() => {
         serviceService.getOneService(id, authenticationService.currentUserValue.accessToken).then(data => {
             console.log(data);
             setDetail(data);
             setAccept(data.status && data.status.name === "accepted");
+            setPending(data.status && data.status.name === "pending");
+            setOwner(data.client && data.client._id === authenticationService.currentUserValue.id);
             setLoading(false);
         });
         authenticationService.currentUser.subscribe(x => {
@@ -55,6 +66,8 @@ function ServiceDetailPage(props) {
             setTech(x && x.roles[0] === Role.Technicien);
         });
     }, []);
+
+    console.log("[detail] ", detail);
 
     return (
         <div>
@@ -68,6 +81,8 @@ function ServiceDetailPage(props) {
                             </Grid>
                             <Grid item xs={4}>Client Name:</Grid>
                             <Grid item xs={8}>{detail.client.username}</Grid>
+                            <Grid item xs={4}>Technicien Name:</Grid>
+                            <Grid item xs={8}>{detail.technicien ? detail.technicien.username : ''}</Grid>
                             <Grid item xs={4}>Status:</Grid>
                             <Grid item xs={8}>{detail.status.name}</Grid>
                             <Grid item xs={4}>Created Date:</Grid>
@@ -76,8 +91,11 @@ function ServiceDetailPage(props) {
                             <Grid item xs={8}>{detail.updatedAt}</Grid>
                         </Grid>
                     </Paper>
-                    {(isTech && !isAccepted) &&
-                        <Button variant="contained" color="primary" onClick={() => acceptService(id, props)}>Accept This Service</Button>
+                    {(isTech && isPending) &&
+                        <Button variant="contained" color="primary" onClick={() => acceptService(id, props)}>Accept this Service</Button>
+                    }
+                    {(isClient && isAccepted && isOwner) &&
+                        <Button variant="contained" color="primary" onClick={() => completeService(id, props)}>Complete Service</Button>
                     }
                 </div>
             }

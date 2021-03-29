@@ -5,11 +5,11 @@ export const serviceService = {
     getAllServices,
     getOneService,
     createService,
-    updateService
+    updateService,
+    completeService
 };
 
 function getAllServices(token) {
-    console.log("[token]", token);
     const requestOptions = { method: 'GET', headers: { 'x-access-token' : token } };
     return fetch(`${config.apiUrl}/api/services`, requestOptions).then(handleResponse);
 }
@@ -41,4 +41,15 @@ function updateService(serviceId, technicien, token) {
         body: JSON.stringify({ technicien })
     };
     return fetch(`${config.apiUrl}/api/service/${serviceId}`, requestOptions).then(handleResponse);
+}
+
+function completeService(serviceId, token) {
+    const requestOptions = { 
+        method: 'POST', 
+        headers: {
+            'x-access-token': token,
+            'Content-Type': 'application/json'
+        }, 
+    };
+    return fetch(`${config.apiUrl}/api/service_complete/${serviceId}`, requestOptions).then(handleResponse);
 }

@@ -56,6 +56,7 @@ export default function StickyHeadTable() {
     serviceService.getAllServices(authenticationService.currentUserValue.accessToken).then(serviceFromApi => {
         var arr = [];
         serviceFromApi.forEach(service => {
+          console.log("[service] ", service);
             arr.push(createData(service.title, service.client, service.technicien, service.status, service.createdAt, service.serviceId));
         });
         setRows(arr);
