@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { serviceService, authenticationService } from '@/services';
+import { Role } from '@/_helpers';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -130,7 +131,19 @@ class HomePage extends React.Component {
 
         this.state = {
             currentUser: authenticationService.currentUserValue,
+            isAdmin: false,
+            isClient: false,
+            isTechnicien: false
         };
+    }
+
+    componentDidMount() {
+      authenticationService.currentUser.subscribe(x => this.setState({
+          currentUser: x,
+          isAdmin: x && x.roles[0] === Role.Admin,
+          isClient: x && x.roles[0] === Role.Client,
+          isTechnicien: x && x.roles[0] === Role.Tech,
+      }));
     }
 
     render() {
@@ -140,6 +153,9 @@ class HomePage extends React.Component {
                 <h1>Service List</h1>
                 <p>You're logged in with React & JWT!!</p>
                 <p>Your role is: <strong>{currentUser.roles[0]}</strong>.</p>
+                {this.state.isClient && 
+                  <Link to="/create/service" className="btn btn-primary" color="inherit">Request After-sales Service</Link>
+                }
                 <StickyHeadTable />
             </div>
         );

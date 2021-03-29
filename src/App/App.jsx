@@ -4,7 +4,7 @@ import { Router, Route, Link } from 'react-router-dom';
 import { history, Role } from '@/_helpers';
 import { authenticationService } from '@/services';
 import { PrivateRoute } from '@/components';
-import { HomePage, ServiceDetailPage } from '@/pages/HomePage';
+import { HomePage, ServiceDetailPage, CreateServicePage } from '@/pages/HomePage';
 import { AdminPage, CreateTechnicienPage } from '@/pages/AdminPage';
 import { LoginPage } from '@/pages/LoginPage';
 import { RegisterPage } from '@/pages/RegisterPage';
@@ -99,6 +99,7 @@ class App extends React.Component {
                                     <Route path="/signup" component={RegisterPage} />
                                     <Route path="/service/:id" render={(props) => <ServiceDetailPage {...props} />} />
                                     <Route exact path="/admin/create/technicien" render={(props) => <CreateTechnicienPage {... props} />} />
+                                    <Route exact path="/create/service" render={(props) => <CreateServicePage {... props} />} />
                                 </div>
                             </div>
                         </div>
