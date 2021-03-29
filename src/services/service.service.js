@@ -4,7 +4,8 @@ import { authHeader, handleResponse } from '@/_helpers';
 export const serviceService = {
     getAllServices,
     getOneService,
-    createService
+    createService,
+    updateService
 };
 
 function getAllServices(token) {
@@ -19,7 +20,6 @@ function getOneService(id, token) {
 }
 
 function createService(title, description, clientId, token) {
-    console.log(title, description, clientId, token);
     const requestOptions = { 
         method: 'POST', 
         headers: {
@@ -29,4 +29,16 @@ function createService(title, description, clientId, token) {
         body: JSON.stringify({ title, description, clientId })
     };
     return fetch(`${config.apiUrl}/api/service`, requestOptions).then(handleResponse);
+}
+
+function updateService(serviceId, technicien, token) {
+    const requestOptions = { 
+        method: 'POST', 
+        headers: {
+            'x-access-token': token,
+            'Content-Type': 'application/json'
+        }, 
+        body: JSON.stringify({ technicien })
+    };
+    return fetch(`${config.apiUrl}/api/service/${serviceId}`, requestOptions).then(handleResponse);
 }

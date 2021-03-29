@@ -38,7 +38,6 @@ function CreateServicePage(props) {
                             serviceService.createService(title, description, authenticationService.currentUserValue.id, authenticationService.currentUserValue.accessToken)
                                 .then(
                                     service => {
-                                        // this.props.history.push(from);
                                         props.history.push("/");
                                     },
                                     error => {

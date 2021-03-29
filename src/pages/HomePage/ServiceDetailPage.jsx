@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { serviceService, authenticationService } from '@/services';
+import { Role } from '@/_helpers';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,21 +22,39 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+function acceptService(serviceId, props) {
+    serviceService.updateService(serviceId, authenticationService.currentUserValue.id, authenticationService.currentUserValue.accessToken)
+    .then(service => {
+        props.history.push("/");
+    })
+}
+
 function ServiceDetailPage(props) {
 
     const classes = useStyles();
     const { id } = props.match.params;
     const [detail, setDetail] = React.useState();
     const [loading, setLoading] = React.useState(true);
+    const [isAdmin, setAdmin] = React.useState(false);
+    const [isClient, setClient] = React.useState(false);
+    const [isTech, setTech] = React.useState(false);
+    const [isAccepted, setAccept] = React.useState(false);
     
     React.useEffect(() => {
         serviceService.getOneService(id, authenticationService.currentUserValue.accessToken).then(data => {
+            console.log(data);
             setDetail(data);
+            setAccept(data.status && data.status.name === "accepted");
             setLoading(false);
         });
+        authenticationService.currentUser.subscribe(x => {
+            console.log(x);
+            console.log(x && x.roles[0] === Role.Technicien);
+            setAdmin(x && x.roles[0] === Role.Admin);
+            setClient(x && x.roles[0] === Role.Client);
+            setTech(x && x.roles[0] === Role.Technicien);
+        });
     }, []);
-
-    console.log(detail);
 
     return (
         <div>
@@ -56,6 +76,9 @@ function ServiceDetailPage(props) {
                             <Grid item xs={8}>{detail.updatedAt}</Grid>
                         </Grid>
                     </Paper>
+                    {(isTech && !isAccepted) &&
+                        <Button variant="contained" color="primary" onClick={() => acceptService(id, props)}>Accept This Service</Button>
+                    }
                 </div>
             }
         </div>
