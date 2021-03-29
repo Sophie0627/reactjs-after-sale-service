@@ -6,7 +6,8 @@ export const serviceService = {
     getOneService,
     createService,
     updateService,
-    completeService
+    completeService,
+    writeReview
 };
 
 function getAllServices(token) {
@@ -52,4 +53,16 @@ function completeService(serviceId, token) {
         }, 
     };
     return fetch(`${config.apiUrl}/api/service_complete/${serviceId}`, requestOptions).then(handleResponse);
+}
+
+function writeReview(serviceId, review, token) {
+    const requestOptions = { 
+        method: 'POST', 
+        headers: {
+            'x-access-token': token,
+            'Content-Type': 'application/json'
+        }, 
+        body: JSON.stringify({ review })
+    };
+    return fetch(`${config.apiUrl}/api/write_review/${serviceId}`, requestOptions).then(handleResponse);
 }

@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-import { userService, authenticationService } from '@/services'; 
+import { serviceService, authenticationService } from '@/services'; 
 
 const useStyles = makeStyles({
     root: {
@@ -13,34 +13,29 @@ const useStyles = makeStyles({
     }
 });
 
-function CreateTechnicienPage(props) {
+function WriteReviewPage(props) {
 
     const classes = useStyles();
-
+    const { id } = props.match.params;
+    
     return (
         <div>
-            <h1>Create a Technicien</h1>
-            <Card className="classes.root">
+            <h1>Request After-sales Service</h1>
+            <Card className={classes.root}>
                 <CardContent>
                     <Formik
                         initialValues={{
-                            userName: '',
-                            email: '',
-                            password: ''
+                            review: '',
                         }}
                         validationSchema={Yup.object().shape({
-                            userName: Yup.string().required('Username is required'),
-                            email: Yup.string().required('Email is required'),
-                            password: Yup.string().required('Password is required')
+                            review: Yup.string().required('Review is required'),
                         })}
-                        onSubmit={({ userName, email, password }, { setStatus, setSubmitting }) => {
+                        onSubmit={({ review }, { setStatus, setSubmitting }) => {
                             setStatus();
-                            userService.createTechnicien(userName, email, password, authenticationService.currentUser.accessToken)
+                            serviceService.writeReview(id, review, authenticationService.currentUserValue.accessToken)
                                 .then(
-                                    user => {
-                                        // const { from } = this.props.location.state || { from: { pathname: "/" } };
-                                        // this.props.history.push(from);
-                                        props.history.push("/admin");
+                                    service => {
+                                        props.history.push("/");
                                     },
                                     error => {
                                         setSubmitting(false);
@@ -51,22 +46,12 @@ function CreateTechnicienPage(props) {
                         render={({ errors, status, touched, isSubmitting }) => (
                             <Form>
                                 <div className="form-group">
-                                    <label htmlFor="userName">UserName</label>
-                                    <Field name="userName" type="text" className={'form-control' + (errors.userName && touched.userName ? ' is-invalid' : '')} />
-                                    <ErrorMessage name="userName" component="div" className="invalid-feedback" />
+                                    <label htmlFor="review">Review</label>
+                                    <Field name="review" type="text" className={'form-control' + (errors.review && touched.review ? ' is-invalid' : '')} />
+                                    <ErrorMessage name="review" component="div" className="invalid-feedback" />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="email">Email</label>
-                                    <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
-                                    <ErrorMessage name="email" component="div" className="invalid-feedback" />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="password">Password</label>
-                                    <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
-                                    <ErrorMessage name="password" component="div" className="invalid-feedback" />
-                                </div>
-                                <div className="form-group">
-                                    <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Create a Technicien</button>
+                                    <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Write Review</button>
                                     {isSubmitting &&
                                         <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                                     }
@@ -83,4 +68,4 @@ function CreateTechnicienPage(props) {
     ); 
 }
 
-export { CreateTechnicienPage }
+export { WriteReviewPage }

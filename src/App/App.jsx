@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import { WriteReviewPage } from '../pages/HomePage/WriteReviewPage';
 // import Button from '@material-ui/core/Button';
 // import IconButton from '@material-ui/core/IconButton';
 // import MenuIcon from '@material-ui/icons/Menu';
@@ -97,7 +98,8 @@ class App extends React.Component {
                                     <PrivateRoute exact path="/admin" roles={[Role.Admin]} component={AdminPage} />
                                     <Route path="/login" component={LoginPage} />
                                     <Route path="/signup" component={RegisterPage} />
-                                    <Route path="/service/:id" render={(props) => <ServiceDetailPage {...props} />} />
+                                    <Route exact path="/write_review/:id" render={(props) => <WriteReviewPage {... props} />} />
+                                    <Route exact path="/service/:id" render={(props) => <ServiceDetailPage {...props} />} />
                                     <Route exact path="/admin/create/technicien" render={(props) => <CreateTechnicienPage {... props} />} />
                                     <Route exact path="/create/service" render={(props) => <CreateServicePage {... props} />} />
                                 </div>

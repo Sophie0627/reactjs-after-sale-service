@@ -33,7 +33,6 @@ function CreateServicePage(props) {
                             description: Yup.string().required('Description is required'),
                         })}
                         onSubmit={({ title, description }, { setStatus, setSubmitting }) => {
-                            console.log("[description] ", description);
                             setStatus();
                             serviceService.createService(title, description, authenticationService.currentUserValue.id, authenticationService.currentUserValue.accessToken)
                                 .then(

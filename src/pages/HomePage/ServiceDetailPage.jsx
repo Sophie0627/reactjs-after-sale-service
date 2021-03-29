@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
+
 import { serviceService, authenticationService } from '@/services';
 import { Role } from '@/_helpers';
 
@@ -47,6 +49,7 @@ function ServiceDetailPage(props) {
     const [isTech, setTech] = React.useState(false);
     const [isAccepted, setAccept] = React.useState(false);
     const [isPending, setPending] = React.useState(false);
+    const [isCompleted, setComplete] = React.useState(false);
     const [isOwner, setOwner] = React.useState(false);
     
     React.useEffect(() => {
@@ -55,6 +58,7 @@ function ServiceDetailPage(props) {
             setDetail(data);
             setAccept(data.status && data.status.name === "accepted");
             setPending(data.status && data.status.name === "pending");
+            setComplete(data.status && data.status.name === "completed");
             setOwner(data.client && data.client._id === authenticationService.currentUserValue.id);
             setLoading(false);
         });
@@ -96,6 +100,20 @@ function ServiceDetailPage(props) {
                     }
                     {(isClient && isAccepted && isOwner) &&
                         <Button variant="contained" color="primary" onClick={() => completeService(id, props)}>Complete Service</Button>
+                    }
+                    {isCompleted && 
+                        <div>
+                            <h3>Review</h3>
+                            <Paper className={classes.paper} justify="flex-start">
+                                <Grid item xs={12} className={classes.title}>
+                                    {detail.review ? detail.review : 'No Review'}
+                                </Grid>
+                            </Paper>
+                        </div>
+                    }
+                    {(isClient && isCompleted && isOwner) &&
+                        <Link to={"/write_review/" + id} className="btn btn-primary" color="inherit">Write Review</Link>
+                        // <Button variant="contained" color="primary" onClick={() => {alert('review')}}>Write Review</Button>
                     }
                 </div>
             }
